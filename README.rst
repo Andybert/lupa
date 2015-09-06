@@ -1,3 +1,12 @@
+Lupa for Torch (hack)
+====
+
+Small hack in order to use Lupa with Torch.
+
+It will find Torch even when installed in non-standard locations (as long as it is in the path).
+
+If there is real interest, I can spend a little more time improving this and submitting a PR.
+
 Lupa
 ====
 
