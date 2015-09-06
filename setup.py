@@ -3,6 +3,7 @@ import sys
 import os
 
 from glob import iglob
+from distutils import spawn
 
 try:
     # use setuptools if available
@@ -102,12 +103,10 @@ def lua_include(package='luajit'):
         return s
     return list(map(trim_i, cflag_out.split()))
 
-
 def lua_libs(package='luajit'):
     libs_out = cmd_output('pkg-config %s --libs' % package)
     libs_out = decode_path_output(libs_out)
     return libs_out.split()
-
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -177,7 +176,12 @@ def has_option(name):
         return True
     return False
 
-config = find_lua_build(no_luajit=has_option('--no-luajit'))
+#    config = find_lua_build(no_luajit=has_option('--no-luajit'))
+th_path = spawn.find_executable("th")
+config = dict(
+    include_dirs=[os.path.join(os.path.dirname(th_path),"../include")]
+)
+
 ext_args = {
     'extra_objects': config.get('extra_objects'),
     'include_dirs': config.get('include_dirs'),
